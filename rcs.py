@@ -1,4 +1,4 @@
-# Version 0.2
+# Version 0.3
 
 # Import modules
 import random
@@ -42,12 +42,6 @@ def random_character(faction_filter=None, race_filter=None, spec_type_filter=Non
         faction = random.choice(list(faction_races.keys()))
     else:
         faction = faction_filter
-
-    start_area = None
-    for area, races in start_areas_races.items():
-        if selected_race in races:
-            start_area = area
-            break
     
     """
     Races need to depend on classes as well. Currently, there is an error if there are no filters except for a class filter which results in empty sequences,
@@ -80,6 +74,12 @@ def random_character(faction_filter=None, race_filter=None, spec_type_filter=Non
     if spec_type_filter:
         possible_specs = [spec for spec in possible_specs if spec in spec_type_filter]
     selected_spec = random.choice(possible_specs)
+
+    start_area = None
+    for area, races in start_areas_races.items():
+        if selected_race in races:
+            start_area = area
+            break
 
     return {
         "Faction": faction,

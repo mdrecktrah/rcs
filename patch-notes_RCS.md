@@ -13,6 +13,8 @@
 
 # Version history
 
+## Version 0.3 - TBD
+
 ## Version 0.2 - 2023/09/07
 - Minor changes to README.
 - Added lists of viable options whenever you choose to set a filter for races, specs and classes.
