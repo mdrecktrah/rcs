@@ -7,7 +7,7 @@ In order to help ourselves with this question, I coded the Random Character Sele
 
 My aim is to help the uncreative, the non-decisive, the adventurous, and those who just want to try a new class/character in World of Warcraft but cannot decide which one. This program shall help you to create one or more random characters. If you have a couple of preferences - like if you definitely want to play Horde (Lok'tar ogar!) - there will be some filters that you can set. After all questions have been answered, you have your very own list of characters to choose from. Now go out there and enjoy the game!
 
-This very first version will only support WoW Classic.
+This very first version only supports WoW Classic. All possible Class/Race combinations can be found online, e.g. on [WoWHead](https://www.wowhead.com/classic/guide/classic-wow-classes-and-talent-overview#class-race-combinations).
 
 ## How to start the script
 The RCS can be started like every other python script. Simply download the _rcs.py_ file and start up your terminal. In your terminal, navigate to the folder where you saved the .py file and run the command `python rcs.py`. Of course, make sure to have python installed on your system ;) <br>
@@ -17,4 +17,4 @@ Written and tested with Python 3.11.4.
 
 ## Support
 If you need help with anything or if you find any bugs, feel free to reach out to me here on Github. I'll reply as soon as possible.<br>
-Every feedback is valuable and I'll be grateful for every tip, idea and/or thought in order to improve my skills, so thank you in advance =)# rcs
+Every feedback is valuable and I'll be grateful for every tip, idea and/or thought in order to improve my skills, so thank you in advance =)
