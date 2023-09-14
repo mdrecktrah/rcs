@@ -1,17 +1,22 @@
 # To-Dos:
-- Build a proper interface (HTML?)
-- Make user input (e.g. classes, races) more flexible in terms of how to write them (e.g. capitalizing)
-    - Could be skipped with the interface, which can just include checkboxes and/or dropdowns
-- Implement handling of empty inputs
-- Check/implement error handling for ValueErrors (Numbers for strings and vice versa)
 - Implement random sex (aka body type) for the character
-- Add random name generator
+- Implement handling of empty and/or wrong inputs (e.g. you select faction filter for Horde and race filter for Alliance races)
+- Check/implement error handling for ValueErrors (Numbers for strings and vice versa)
 - Add check for multiple chars to start in the same area
     - If you want to play with your friends, it would be a pain to first have to travel to another starting area just to get started together
 - Avoid doubles in output
 - Add option to create a new list - with same inputs or by restarting the whole process
-
+- Build UI
+    - This will also avoid errors due to misspelling or lower-/uppercase mistakes
+- Add random name generator
 # Version history
+
+## Version 0.3 - TBD
+- Re-arranged order of the filter selection
+    - Was Faction -> Race -> Role (former Spec Type) -> Class
+    - Is now Faction -> Role (former Spec Type) -> Class -> Race
+- Also: Changed Spec Type to Role, as this is more fitting to how Blizzard calls it
+    - Roles include: Tank, Healer, Melee (DPS), Ranged (DPS)
 
 ## Version 0.2 - 2023/09/07
 - Minor changes to README.

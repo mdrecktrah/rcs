@@ -18,3 +18,6 @@ Written and tested with Python 3.11.4.
 ## Support
 If you need help with anything or if you find any bugs, feel free to reach out to me here on Github. I'll reply as soon as possible.<br>
 Every feedback is valuable and I'll be grateful for every tip, idea and/or thought in order to improve my skills, so thank you in advance =)
+
+## Current Version
+The latest version is 0.2, deployed on Sep. 7th 2023. Please see the [patch notes](https://github.com/mdrecktrah/rcs/blob/a25b7587af6760847591e30b6412d6159c2b6dc0/patch-notes_RCS.md) for further information.
