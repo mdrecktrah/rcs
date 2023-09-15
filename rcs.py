@@ -18,15 +18,6 @@ races_classes = {
     "Undead":["Mage", "Priest", "Rogue", "Warlock", "Warrior"]
 }
 
-# This dictionary was supposed to help within my race_selection function. Turns out, I just have to filter out Gnome healers ;)
-# Will still keep it here just in case I will need it at any other point.
-# roles_races = {
-#     "Tank": ["Dwarf", "Gnome", "Human", "Night elf", "Orc", "Tauren", "Troll", "Undead"],
-#     "Healer": ["Dwarf", "Human", "Night elf", "Orc", "Tauren", "Troll", "Undead"],
-#     "Melee": ["Dwarf", "Gnome", "Human", "Night elf", "Orc", "Tauren", "Troll", "Undead"],
-#     "Ranged": ["Dwarf", "Gnome", "Human", "Night elf", "Orc", "Tauren", "Troll", "Undead"]
-#     }
-
 start_areas_races = {
     "Dun Morogh":["Dwarf", "Gnome"],
     "Elwynn":"Human",
@@ -64,7 +55,7 @@ def faction_selection(faction_select):
     elif faction_select == "H" or faction_select == "Horde":
         faction_filter = "Horde"
     else:
-        faction_select = input("Please select a valid option: A(lliance), H(orde) or R(andom) ").capitalize()
+        faction_select = input("Please select a valid option - A(lliance), H(orde) or R(andom): ").capitalize()
         faction_filter = faction_selection(faction_select)
     return faction_filter
 
@@ -74,6 +65,10 @@ def role_selection(role_select_trigger):
         for role in roles_classes.keys():
             print(f"- {role}")
         role_filter = [role.strip().capitalize() for role in input("If you select more than one role, please separate with a ',': ").split(",")]
+        for role in role_filter:
+            if role not in list(roles_classes.keys()):
+                print("Please only enter valid options from the list below.")
+                role_filter = role_selection(role_select_trigger)
     elif role_select_trigger == "N" or role_select_trigger == "No":
         role_filter = None
     else:
@@ -99,13 +94,17 @@ def class_selection(class_select_trigger, faction_filter, role_filter):
         for cls in class_list:
             print(f"- {cls}")
         class_filter = [cls.strip().capitalize() for cls in input("If you select more than one class, please separate with a ',': ").split(",")]
+        for cls in class_filter:
+            if cls not in class_list:
+                print("Please only enter valid options from the list below.")
+                class_filter = class_selection(class_select_trigger, faction_filter, role_filter)
     elif class_select_trigger == "N" or class_select_trigger == "No":
         class_filter = None
     else:
         print("Please enter a valid option.")
         class_select_trigger = input("Do you want to select one or multiple classes for the selection process? Y(es) or N(o): ").capitalize()
         class_filter = class_selection(class_select_trigger, faction_filter, role_filter)
-    return class_filter   
+    return class_filter
 
 def race_selection(race_select_trigger, faction_filter, role_filter, class_filter):
     if race_select_trigger == "Y" or race_select_trigger == "Yes":
@@ -133,6 +132,10 @@ def race_selection(race_select_trigger, faction_filter, role_filter, class_filte
         for race in race_list:
             print(f"- {race}")
         race_filter = [race.strip().capitalize() for race in input("If you select more than one race, please separate with a ',': ").split(",")]
+        for race in race_filter:
+            if race not in race_list:
+                print("Please only enter valid options from the list below.")
+                race_filter = race_selection(race_select_trigger, faction_filter, role_filter, class_filter)
     elif race_select_trigger == "N" or race_select_trigger == "No":
         race_filter = None
     else:
@@ -156,13 +159,6 @@ def random_character(faction_filter=None, role_filter=None, class_filter=None, r
 
     if role_filter is None:
         selected_role = random.choice(list(roles_classes.keys()))
-    elif race_filter == ["Gnome"] and role_filter is None: #Gnomes are the only race, that cannot fill the Healer role, so just in case someone REALLY wants to play a Gnome I filter this out
-        possible_roles = list(roles_classes.keys())
-        possible_roles.remove("Healer")
-        selected_role = random.choice(possible_roles)
-    elif race_filter == ["Gnome"] and role_filter != None and "Healer" in role_filter:
-        role_filter.remove("Healer")
-        selected_role = random.choice(role_filter)
     else:
         selected_role = random.choice(role_filter)
 
@@ -185,6 +181,7 @@ def random_character(faction_filter=None, role_filter=None, class_filter=None, r
                 else:
                     selected_race = random.choice(list(set([race for race in race_filter if selected_class in races_classes[race]])))
             except IndexError:
+                selected_class = random_class(class_filter, possible_classes)
                 continue
 
     start_area = None
@@ -200,6 +197,17 @@ def random_character(faction_filter=None, role_filter=None, class_filter=None, r
         "Class": selected_class,
         "Role": selected_role
     }
+
+def start_again(repeat_trigger): # not yet functional
+    while True:
+        if repeat_trigger == "Y" or "Yes":
+            main()
+        elif repeat_trigger == "N" or "No":
+            exit()
+        else:
+            print("Please enter a valid option.")
+            repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()
+            start_again(repeat_trigger)
 
 def main():
     no_of_chars = number_of_chars()
@@ -217,8 +225,12 @@ def main():
     race_filter = race_selection(race_select_trigger, faction_filter, role_filter, class_filter)
     
     print("=" * 20)
-    for idx in range(no_of_chars): #implement handling of IndexError here
-        character = random_character(faction_filter, role_filter, class_filter, race_filter)
+    for idx in range(no_of_chars):
+        try:
+            character = random_character(faction_filter, role_filter, class_filter, race_filter)
+        except IndexError:
+            print("Unfortunately, there are no valid options for your filters. Please try again.")
+            break
         print(f"Character {idx+1} Info:")
         print(f"Faction: {character['Faction']}")
         print(f"Race: {character['Race']}")
@@ -226,6 +238,9 @@ def main():
         print(f"Role: {character['Role']}")
         print(f"Starting Area: {character['Starting Area']}")
         print("=" * 20)
+
+    # repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()  --- not yet functional
+    # start_again(repeat_trigger) 
 
 # RCS
 if __name__ == "__main__":

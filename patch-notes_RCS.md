@@ -1,7 +1,5 @@
 # To-Dos:
 - Implement random sex (aka body type) for the character
-- Implement handling of empty and/or wrong inputs (e.g. you select faction filter for Horde and race filter for Alliance races)
-- Check/implement error handling for ValueErrors (Numbers for strings and vice versa)
 - Add check for multiple chars to start in the same area
     - If you want to play with your friends, it would be a pain to first have to travel to another starting area just to get started together
 - Avoid doubles in output
@@ -11,12 +9,13 @@
 - Add random name generator
 # Version history
 
-## Version 0.3 - TBD
+## Version 0.3 - 2023/09/15
 - Re-arranged order of the filter selection
     - Was Faction -> Race -> Role (former Spec Type) -> Class
     - Is now Faction -> Role (former Spec Type) -> Class -> Race
 - Also: Changed Spec Type to Role, as this is more fitting to how Blizzard calls it
     - Roles include: Tank, Healer, Melee (DPS), Ranged (DPS)
+- Empty or wrong inputs now trigger a short error message and re-trigger the last step (show list of options and user input)
 
 ## Version 0.2 - 2023/09/07
 - Minor changes to README.
