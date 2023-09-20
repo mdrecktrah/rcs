@@ -39,8 +39,8 @@ def number_of_chars():
     while True:
         try:
             no_of_chars = int(input("How many randomly selected characters do you want to create? "))
-            if no_of_chars < 1:
-                print("The number of characters generated should be at least 1.")
+            if no_of_chars < 1 or no_of_chars > 5:
+                print("Please enter a number from 1 and 5.")
                 continue
             else:
                 return no_of_chars
@@ -151,6 +151,10 @@ def random_class(class_filter, possible_classes):
         selected_class = random.choice(class_filter)
     return selected_class
 
+def random_sex():
+    selected_sex = random.choice(["Male", "Female"])
+    return selected_sex
+
 def random_character(faction_filter=None, role_filter=None, class_filter=None, race_filter=None):
     if faction_filter is None:
         selected_faction = random.choice(list(faction_races.keys()))
@@ -189,13 +193,16 @@ def random_character(faction_filter=None, role_filter=None, class_filter=None, r
         if selected_race in races:
             start_area = area
             break
+
+    selected_sex = random_sex()
     
     return {
         "Faction": selected_faction,
         "Starting Area": start_area,
         "Race": selected_race,
         "Class": selected_class,
-        "Role": selected_role
+        "Role": selected_role,
+        "Sex": selected_sex
     }
 
 def start_again(repeat_trigger): # not yet functional
@@ -233,7 +240,7 @@ def main():
             break
         print(f"Character {idx+1} Info:")
         print(f"Faction: {character['Faction']}")
-        print(f"Race: {character['Race']}")
+        print(f"Race: {character['Race']} ({character['Sex']})")
         print(f"Class: {character['Class']}")
         print(f"Role: {character['Role']}")
         print(f"Starting Area: {character['Starting Area']}")

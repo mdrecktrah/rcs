@@ -1,13 +1,18 @@
 # To-Dos:
-- Implement random sex (aka body type) for the character
-- Add check for multiple chars to start in the same area
-    - If you want to play with your friends, it would be a pain to first have to travel to another starting area just to get started together
-- Avoid doubles in output
 - Add option to create a new list - with same inputs or by restarting the whole process
 - Build UI
     - This will also avoid errors due to misspelling or lower-/uppercase mistakes
-- Add random name generator
+
+### Scrapped ideas
+- Add check for multiple chars to start in the same area (This will probably not be used frequently - let me know if I'm wrong!)
+- Avoid doubles in output (You can easily restart the process if you are not satisfied with your results)
+- Add random name generator (The 'easiest' way I can currently come up with would be to build a SQL database with a whole lot of names and... nope thank you. But added a reference guide to the README!)
 # Version history
+
+## Version 0.4 - TBD
+- Implement random sex (aka body type) for the character
+- Added restriction to number of chars that can be generated at once: Is now at least 1 and max 5 (before, it was only at least 1 and no upper restriction).
+- Updated README with a note regarding names and some disclaimer stuff
 
 ## Version 0.3 - 2023/09/15
 - Re-arranged order of the filter selection
