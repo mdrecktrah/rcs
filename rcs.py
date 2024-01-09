@@ -18,15 +18,6 @@ races_classes = {
     "Undead":["Mage", "Priest", "Rogue", "Warlock", "Warrior"]
 }
 
-start_areas_races = {
-    "Dun Morogh":["Dwarf", "Gnome"],
-    "Elwynn":"Human",
-    "Teldrassil":"Night elf",
-    "Durotar":["Orc", "Troll"],
-    "Mulgore":"Tauren",
-    "Lordaeron":"Undead"
-}
-
 roles_classes = {
     "Tank":["Druid", "Paladin", "Warrior"],
     "Healer":["Druid", "Paladin", "Priest", "Shaman"],
@@ -39,8 +30,8 @@ def number_of_chars():
     while True:
         try:
             no_of_chars = int(input("How many randomly selected characters do you want to create? "))
-            if no_of_chars < 1:
-                print("The number of characters generated should be at least 1.")
+            if no_of_chars < 1 or no_of_chars > 5:
+                print("Please enter a number from 1 and 5.")
                 continue
             else:
                 return no_of_chars
@@ -144,33 +135,57 @@ def race_selection(race_select_trigger, faction_filter, role_filter, class_filte
         race_filter = race_selection(race_select_trigger, faction_filter, role_filter, class_filter)
     return race_filter
 
-def random_class(class_filter, possible_classes):
-    if class_filter is None:
-        selected_class = random.choice(possible_classes)
-    else:
-        selected_class = random.choice(class_filter)
-    return selected_class
+def random_sex():
+    selected_sex = random.choice(["Male", "Female"])
+    return selected_sex
 
-def random_character(faction_filter=None, role_filter=None, class_filter=None, race_filter=None):
+def select_faction(faction_filter):
     if faction_filter is None:
         selected_faction = random.choice(list(faction_races.keys()))
     else:
         selected_faction = faction_filter
+    return selected_faction
 
-    if role_filter is None:
+def select_role(role_filter, class_filter):
+    if role_filter is None and class_filter is None:
         selected_role = random.choice(list(roles_classes.keys()))
+    elif role_filter is None and class_filter != None:
+        possible_roles = []
+        for cls in class_filter:
+            for role in roles_classes.keys():
+                if cls in roles_classes[role]:
+                    possible_roles.append(role)
+        possible_roles = list(set(possible_roles))
+        possible_roles.sort()
+        selected_role = random.choice(possible_roles)         
     else:
         selected_role = random.choice(role_filter)
+    return selected_role
 
-    possible_classes = roles_classes[selected_role]
-    if selected_faction == "Alliance" and "Shaman" in possible_classes:
-        possible_classes.remove("Shaman")
-    elif selected_faction == "Horde" and "Paladin" in possible_classes:
-        possible_classes.remove("Paladin")
+def random_character(faction_filter, role_filter, class_filter, race_filter):
+    selected_faction = select_faction(faction_filter)
+    selected_role = select_role(role_filter, class_filter)
+    
+    possible_classes = []
+    while possible_classes == []:
+        if class_filter is None:
+            possible_classes = roles_classes[selected_role]
+        elif class_filter != None:
+            for cls in class_filter:
+                if cls in roles_classes[selected_role]:
+                    possible_classes.append(cls)
+        if selected_faction == "Alliance" and "Shaman" in possible_classes:
+            possible_classes.remove("Shaman")
+        elif selected_faction == "Horde" and "Paladin" in possible_classes:
+            possible_classes.remove("Paladin")
+        if possible_classes == []:
+            selected_faction = select_faction(faction_filter)
+            selected_role = select_role(role_filter, class_filter)
+            continue
 
     selected_class = None
     while selected_class is None:
-        selected_class = random_class(class_filter, possible_classes)
+        selected_class = random.choice(possible_classes)
 
         possible_races = list(set([race for race, classes in races_classes.items() if selected_class in classes and race in faction_races[selected_faction]]))
         selected_race = None
@@ -181,33 +196,29 @@ def random_character(faction_filter=None, role_filter=None, class_filter=None, r
                 else:
                     selected_race = random.choice(list(set([race for race in race_filter if selected_class in races_classes[race]])))
             except IndexError:
-                selected_class = random_class(class_filter, possible_classes)
+                selected_class = random.choice(possible_classes)
                 continue
-
-    start_area = None
-    for area, races in start_areas_races.items():
-        if selected_race in races:
-            start_area = area
-            break
+ 
+    selected_sex = random_sex()
     
     return {
         "Faction": selected_faction,
-        "Starting Area": start_area,
         "Race": selected_race,
         "Class": selected_class,
-        "Role": selected_role
+        "Role": selected_role,
+        "Sex": selected_sex
     }
 
-def start_again(repeat_trigger): # not yet functional
-    while True:
-        if repeat_trigger == "Y" or "Yes":
-            main()
-        elif repeat_trigger == "N" or "No":
-            exit()
-        else:
-            print("Please enter a valid option.")
-            repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()
-            start_again(repeat_trigger)
+def start_again(repeat_trigger):
+    if repeat_trigger == "Y" or repeat_trigger == "Yes":
+        print("====================")
+        main()
+    elif repeat_trigger == "N" or repeat_trigger == "No":
+        exit()
+    else:
+        print("Please enter a valid option.")
+        repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()
+        start_again(repeat_trigger)
 
 def main():
     no_of_chars = number_of_chars()
@@ -233,14 +244,13 @@ def main():
             break
         print(f"Character {idx+1} Info:")
         print(f"Faction: {character['Faction']}")
-        print(f"Race: {character['Race']}")
+        print(f"Race: {character['Race']} ({character['Sex']})")
         print(f"Class: {character['Class']}")
         print(f"Role: {character['Role']}")
-        print(f"Starting Area: {character['Starting Area']}")
         print("=" * 20)
 
-    # repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()  --- not yet functional
-    # start_again(repeat_trigger) 
+    repeat_trigger = input("Would you like to start RCS from the beginning? Y(es) or N(o): ").capitalize()
+    start_again(repeat_trigger) 
 
 # RCS
 if __name__ == "__main__":
