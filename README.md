@@ -22,7 +22,7 @@ If you need help with anything or if you find any bugs, feel free to reach out t
 Every feedback is valuable and I'll be grateful for every tip, idea and/or thought in order to improve my skills, so thank you in advance =)
 
 ## Current Version
-The latest version is 0.3, deployed on Sep. 15th 2023. Please see the [patch notes](https://github.com/mdrecktrah/rcs/blob/main/patch-notes_RCS.md) for further information.
+The latest version is 0.4, deployed on Jan. 9th 2024. Please see the [patch notes](https://github.com/mdrecktrah/rcs/blob/main/patch-notes_RCS.md) for further information.
 
 ## Disclaimer
 The contents of this repository are free to use (check the LICENSE) and deployed with good intentions and as a fun little training project. The script has been tested by the author several times over. Still, use of this script is in your own responsibility and the author cannot be held liable for any damages that might occur while you are using this script - especially if you use a script which has been changed by yourself or a third person/party and is thus not in it's original state.
